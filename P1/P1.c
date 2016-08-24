@@ -61,8 +61,9 @@ int main(int argc, char *argv[])
 	//double sidePentagon = 0.0;
 
     // Check number of arguments
-    if (argc != 5) 
-    {	printf("%d\n",argc);
+    if (argc != 5)	 
+    {	
+	//printf("%d\n",argc);
         printf("usage: ./P1 <double> <double> <double> <double>\n");
         return EXIT_FAILURE;
     }
