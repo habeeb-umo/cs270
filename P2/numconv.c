@@ -133,15 +133,19 @@ int ascii2int (int radix, const char *str) {
  */
 void int2ascii (int radix, int value) {
 	
+	int remainder;
+	int result;
 	// base case
 	if(value <= 0){
 
 	}
 	// recursive case
 	else{
-
-		int2ascii(radix, value / radix);
-		putchar(int2char(radix,value % radix));
+		divRem(value, radix, &result, &remainder);
+		int2ascii(radix, result);
+		putchar(int2char(radix, remainder));
+	//	int2ascii(radix, value / radix);
+	//	putchar(int2char(radix,value % radix));
 	}
 }
 
