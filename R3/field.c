@@ -29,8 +29,23 @@ int clearBit (int value, int position) {
 }
 
 /** @todo Implement in field.c based on documentation contained in field.h */
-int getField (int value, int hi, int lo, bool isSigned) {	
-   	return 0;
+int getField (int value, int hi, int lo, bool isSigned) {
+	printBinary(value);
+	printf(" before\n");
+	value = value >> lo;
+	printBinary(value);
+	printf(" after\n");
+		
+	int field = (hi - lo) + 1;
+	int mask = (1 << field) - 1;
+	value = value & mask;
+	printBinary(value);
+	printf(" after mask\n");
+	if(isSigned && getBit(value, field) == 1){
+	mask = ~mask;
+	value = value | mask;
+	}
+   	return value;
 }
 
 /** @todo Implement in field.c based on documentation contained in field.h */
