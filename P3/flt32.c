@@ -46,12 +46,14 @@ void flt32_get_all(flt32 x, int* sign, int*exp, int* val) {
 
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_abs (flt32 x) {
-  return 0;
+	
+	return x | 0 << 31;
 }
 
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_negate (flt32 x) {
-  return 0;
+	
+	return x ^ 1 << 31;
 }
 
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
