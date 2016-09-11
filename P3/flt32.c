@@ -24,17 +24,15 @@ int flt32_get_exp (flt32 x) {
 	x = x >> 23;
 	int field = (8 - 0) + 1;
 	int mask = (1 << field) - 1;
-	printf("\n");
   
 	return x & mask; /* implement this */
 }
 
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 int flt32_get_val (flt32 x) {
+
 	int field = (23 - 0) + 1;
-	int mask = (1 << field) - 1;
-	printBinary(x & mask);
-	printf("\n");
+	int mask = (1 << field);
 
   	return x & mask;
 }
