@@ -14,6 +14,7 @@ void printBinary (int value);
 
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 int flt32_get_sign (flt32 x) {
+
   return 0; /* implement this */
 }
 
