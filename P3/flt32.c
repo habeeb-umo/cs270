@@ -31,10 +31,10 @@ int flt32_get_exp (flt32 x) {
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 int flt32_get_val (flt32 x) {
 
-	int field = (23 - 0) + 1;
-	int mask = (1 << field);
-
-  	return x & mask;
+	int field = (22 - 0) + 1;
+	int mask = (1 << field) - 1;
+	
+  	return (x & mask) + 8388608;
 }
 
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
