@@ -125,7 +125,7 @@ int ascii2int (int radix, const char *str) {
 	// strtol(str, &endptr, base) is string to long int
 	numFinal = strtol(str, &endptr, radix);
 
-  return numFinal;
+	return numFinal;
 }
 
 /** @todo implement in <code>numconv.c</code> based on documentation contained 
@@ -164,6 +164,6 @@ double ascii2double (int radix, const char *str) {
   	else
 	dFinal = strtod(str, &endPtr);
 
-return dFinal;
+	return dFinal;
 }
 
