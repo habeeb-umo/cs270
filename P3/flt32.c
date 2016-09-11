@@ -24,7 +24,6 @@ int flt32_get_exp (flt32 x) {
 	x = x >> 23;
 	int field = (8 - 0) + 1;
 	int mask = (1 << field) - 1;
-	printBinary(x & mask);
 	printf("\n");
   
 	return x & mask; /* implement this */
