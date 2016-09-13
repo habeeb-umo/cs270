@@ -46,23 +46,64 @@ void flt32_get_all(flt32 x, int* sign, int*exp, int* val) {
 
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_abs (flt32 x) {
-	
-	return x | 0 << 31;
+		
+	return (x & 2147483647);
 }
 
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_negate (flt32 x) {
-	
+
+	if(x == 0)
+	return 0;
+
 	return x ^ 1 << 31;
 }
 
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_add (flt32 x, flt32 y) {
-  return 0;
+	// Get all x components
+	int xSign = flt32_get_sign(x);
+	int xExp = flt32_get_exp(x);
+	int xVal = flt32_get_val(x);
+
+	// Get all y components
+	int ySign = flt32_get_sign(y);
+	int yExp = flt32_get_exp(y);
+	int yVal = flt32_get_val(y);
+	
+	// Equalize
+	if(x > y){
+	y = y >> (x - y);
+	yExp = yExp + (x - y);
+	}
+	if(y > x){
+	x = x >> (x - y);
+	xExp = xExp + (x - y);
+	}
+
+	
+	int resultSign;
+	if((x > y) && (xSign == 1))
+	resultSign = 1;
+	if((y > x) && (ySign == 1))
+	resultSign = 1;
+	else
+	resultSign = 0;
+	
+	if(xSign = 1)
+	x = ~x + 1;
+	if(ySign = 1)
+	y = ~y + 1;
+	
+	int result = x + y;
+	//int resultExp = xExp;
+	
+	
+  return result;
 }
 
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_sub (flt32 x, flt32 y) {
   return 0;
 }
-
+	
