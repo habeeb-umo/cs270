@@ -94,7 +94,7 @@ flt32 flt32_add (flt32 x, flt32 y) {
 	xExp = xExp + (yExp - xExp);
 	resExp = yExp;
 	}
-
+	// Negative sign?
 	int resSign = 0;
 	if(xSign == 1){
 	x = ~x + 1;
@@ -107,15 +107,11 @@ flt32 flt32_add (flt32 x, flt32 y) {
 	
 	// Result mantissa
 	int resVal = xVal + yVal;
-//	printBinary(resVal);
-//	printf(resVal);
-//	printf("\n");
-//	printBinary(xExp);
-//	printf("\n");
-//	printBinary(yExp);
-	// Convert to & from 2's comp here
+
+	// Convert to 2's comp 
 	if(resSign == 1)
 	resVal = ~resVal + 1;
+
 	// Normalize Result
 	if(23 - howDisplaced(resVal) < 0){
 	int dispLeft = (23 - howDisplaced(resVal)) * (-1);
@@ -127,10 +123,10 @@ flt32 flt32_add (flt32 x, flt32 y) {
 	resVal = resVal << dispRight;
 	resExp = resExp + dispRight;
 	}
-
+	// Finalize position
 	resExp = resExp << 23;
 	resVal = clearBit(resVal, 23);
-	//printBinary(xSign | resExp | resVal);
+	
   return xSign | resExp | resVal;
 }
 
@@ -147,6 +143,7 @@ int howDisplaced(int val){
 }
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_sub (flt32 x, flt32 y) {
+	printBinary(flt32_add(x,~y));
   return flt32_add(x,~y);
 }
 	
