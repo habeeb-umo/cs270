@@ -69,7 +69,22 @@ int getBit (int value, int position) {
 int clearBit (int value, int position) {
 	int mask = 1 << position;
    	 return ~(mask) & value;
+
 }
+
+
+int howDisplaced(int val){
+	int dCount = 0;
+	for(int i = 31; i >= 0; i--){
+	if(getBit(val, i) == 1){
+		return 31 - dCount;
+	}
+	else
+		dCount += 1;
+	}
+	return dCount;
+}
+
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_add (flt32 x, flt32 y) {
 	// Get all x components
@@ -130,17 +145,6 @@ flt32 flt32_add (flt32 x, flt32 y) {
   return xSign | resExp | resVal;
 }
 
-int howDisplaced(int val){
-	int dCount = 0;
-	for(int i = 31; i >= 0; i--){
-	if(getBit(val, i) == 1){
-		return 31 - dCount;
-	}
-	else
-		dCount += 1;
-	}
-	return dCount;
-}
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_sub (flt32 x, flt32 y) {
 	printBinary(flt32_add(x,~y));
