@@ -60,6 +60,16 @@ flt32 flt32_negate (flt32 x) {
 	return x ^ 1 << 31;
 }
 
+int getBit (int value, int position) {
+    //requires right shift & modulo
+	int mask = 1;
+	value = value >> position;
+	return value & mask;
+}
+int clearBit (int value, int position) {
+	int mask = 1 << position;
+   	 return ~(mask) & value;
+}
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_add (flt32 x, flt32 y) {
 	// Get all x components
@@ -72,39 +82,71 @@ flt32 flt32_add (flt32 x, flt32 y) {
 	int yExp = flt32_get_exp(y);
 	int yVal = flt32_get_val(y);
 	
-	// Equalize
-	if(x > y){
-	y = y >> (x - y);
-	yExp = yExp + (x - y);
+	// Equalize exponents
+	int resExp;
+	if(xExp > yExp){
+	yVal = yVal >> (xExp - yExp);
+	yExp = yExp + (xExp - yExp);
+	resExp = xExp;
 	}
-	if(y > x){
-	x = x >> (x - y);
-	xExp = xExp + (x - y);
+	if(yExp > xExp){
+	xVal = xVal >> (yExp - xExp);
+	xExp = xExp + (yExp - xExp);
+	resExp = yExp;
 	}
 
-	
-	int resultSign;
-	if((x > y) && (xSign == 1))
-	resultSign = 1;
-	if((y > x) && (ySign == 1))
-	resultSign = 1;
-	else
-	resultSign = 0;
-	
-	if(xSign = 1)
+	int resSign = 0;
+	if(xSign == 1){
 	x = ~x + 1;
-	if(ySign = 1)
+	resSign = 1;
+	}
+	if(ySign == 1){
 	y = ~y + 1;
+	resSign = 1;
+	}
 	
-	int result = x + y;
-	//int resultExp = xExp;
-	
-	
-  return result;
+	// Result mantissa
+	int resVal = xVal + yVal;
+//	printBinary(resVal);
+//	printf(resVal);
+//	printf("\n");
+//	printBinary(xExp);
+//	printf("\n");
+//	printBinary(yExp);
+	// Convert to & from 2's comp here
+	if(resSign == 1)
+	resVal = ~resVal + 1;
+	// Normalize Result
+	if(23 - howDisplaced(resVal) < 0){
+	int dispLeft = (23 - howDisplaced(resVal)) * (-1);
+	resVal = resVal >> dispLeft;
+	resExp = resExp + dispLeft; 
+	}
+	if(23 - howDisplaced(resVal) > 0){
+	int dispRight = 23 - howDisplaced(resVal);
+	resVal = resVal << dispRight;
+	resExp = resExp + dispRight;
+	}
+
+	resExp = resExp << 23;
+	resVal = clearBit(resVal, 23);
+	//printBinary(xSign | resExp | resVal);
+  return xSign | resExp | resVal;
 }
 
+int howDisplaced(int val){
+	int dCount = 0;
+	for(int i = 31; i >= 0; i--){
+	if(getBit(val, i) == 1){
+		return 31 - dCount;
+	}
+	else
+		dCount += 1;
+	}
+	return dCount;
+}
 /** @todo Implement in flt32.c based on documentation contained in flt32.h */
 flt32 flt32_sub (flt32 x, flt32 y) {
-  return 0;
+  return flt32_add(x,~y);
 }
 	
