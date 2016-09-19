@@ -56,27 +56,18 @@ static int symbol_hash (const char* name) {
 /** @todo implement this function */
 sym_table_t* symbol_init (int table_size) {
 	// Allocate memory for return value
-	sym_table_t *symTable = malloc(sizeof(sym_table_t));
+	sym_table_t *symTable = calloc(1, sizeof(sym_table_t));
 	
-	// Initialize node array that hash table points to
-	node_t *nodeArray;
-	nodeArray = malloc(sizeof(table_size));
-	
-	symTable -> hash_table = &nodeArray;
+	// Initialize node array hash table points to
+	symTable -> hash_table = calloc(table_size, sizeof(node_t*));
 
-	// Set each node array element of hash table to NULL
-	for(int i = 0; i < table_size; i++){
-		symTable -> hash_table[i] = NULL;
-	}
-	
 	// Initialize address table
-	char *adArray;
-	adArray = malloc(sizeof(LC3_MEMORY_SIZE));
-	symTable -> addr_table = &adArray;
+	symTable -> addr_table = calloc(LC3_MEMORY_SIZE, sizeof(char));
 
 	// Set table size
 	symTable -> size = table_size;
-	printf("clear!");	
+	
+
 return symTable;
 }
 
@@ -92,20 +83,33 @@ void symbol_add_unique (sym_table_t* symTab, const char* name, int addr) {
 	newSym.name = nameCopy;
 	newSym.addr = addr;
 	
-	node_t* newNodePtr = symTab -> hash_table[hashAddr] -> next;
-	node_t newNode = *newNodePtr;
-	newNode.next = newNodePtr -> next;
-	newNode.hash = symHash; 
-	newNode.symbol = newSym;
+	node_t* currentPtr = symTab -> hash_table[hashAddr];
+	node_t* newNode = calloc(1, sizeof(node_t));
+	newNode -> next = currentPtr;
+	newNode -> hash = symHash; 
+	newNode -> symbol = newSym;
+
+	symTab -> hash_table[hashAddr] = newNode;
+	if(symTab -> addr_table[addr] != NULL){
+		
+	}
+	else
+	symTab -> addr_table[addr] = newSym.name;
 }
 
 /** @todo implement this function */
 char* symbol_find_by_addr (sym_table_t* symTab, int addr) {
-  return NULL;
+	return symTab -> addr_table[addr];
 }
 
 /** @todo implement this function */
 void symbol_iterate (sym_table_t* symTab, iterate_fnc_t fnc, void* data) {
+	for(int i = 0; i < symTab -> size; i++){
+	if(symTab -> hash_table[i] == NULL){
+	}
+	else
+		(*fnc)(&(symTab -> hash_table[i] -> symbol), data);
+	}
 }
 
 /** @todo implement this function */
