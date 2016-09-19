@@ -1,0 +1,37 @@
+ddu Hanzo 2
+addu trACer 270
+addu winston 450
+addu reaper 3
+addu zenyatta 777
+addu genji 4
+addu junkrat 66
+addu zarya 450
+addu reindhardt  23
+addu saphira 2
+addu torbjorn 1
+addu zeus 2
+addu kegan 21
+label 270
+label 450
+label 2
+label 1
+add soldier 21
+count
+list
+count
+get soldier
+list
+count
+add soldier 450
+add SoldierTwo 451
+addu soldierFive 5
+count
+list
+count
+add kegan 21
+add habeeb 100
+add joseph 77
+count
+list
+quit
+
