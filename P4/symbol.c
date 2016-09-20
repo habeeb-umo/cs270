@@ -55,10 +55,10 @@ static int symbol_hash (const char* name) {
 
 /** @todo implement this function */
 sym_table_t* symbol_init (int table_size) {
-	// Allocate memory for return value
+	// Initialize symbol table
 	sym_table_t *symTable = calloc(1, sizeof(sym_table_t));
 	
-	// Initialize node array hash table points to
+	// Initialize hash table 
 	symTable -> hash_table = calloc(table_size, sizeof(node_t*));
 
 	// Initialize address table
@@ -73,22 +73,22 @@ return symTable;
 
 /** @todo implement this function */
 void symbol_add_unique (sym_table_t* symTab, const char* name, int addr) {
-	//printf("clear!");
+	// Make a copy of name
 	char *nameCopy = strdup(name);
+	// Calculate hash
 	int symHash = (symbol_hash(nameCopy));
-	//printf("%d", symHash);
 	int hashAddr = symHash % (symTab -> size);
-	
+	// New symbol
 	symbol_t newSym;
 	newSym.name = nameCopy;
 	newSym.addr = addr;
-	
+	// Node exchange in linked list
 	node_t* currentPtr = symTab -> hash_table[hashAddr];
 	node_t* newNode = calloc(1, sizeof(node_t));
 	newNode -> next = currentPtr;
 	newNode -> hash = symHash; 
 	newNode -> symbol = newSym;
-
+	// Change old symbol to new
 	symTab -> hash_table[hashAddr] = newNode;
 	if(symTab -> addr_table[addr] != NULL){
 		
@@ -99,13 +99,17 @@ void symbol_add_unique (sym_table_t* symTab, const char* name, int addr) {
 
 /** @todo implement this function */
 char* symbol_find_by_addr (sym_table_t* symTab, int addr) {
+	// Return symbol at addr in the address table
 	return symTab -> addr_table[addr];
 }
 
 /** @todo implement this function */
 void symbol_iterate (sym_table_t* symTab, iterate_fnc_t fnc, void* data) {
+	// Loop through each entry in hash table
 	for(int i = 0; i < symTab -> size; i++){
+	// Visit each entry that is not NULL and use fnc
 	if(symTab -> hash_table[i] == NULL){
+	
 	}
 	else
 		(*fnc)(&(symTab -> hash_table[i] -> symbol), data);
