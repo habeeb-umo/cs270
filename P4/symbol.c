@@ -107,13 +107,14 @@ char* symbol_find_by_addr (sym_table_t* symTab, int addr) {
 void symbol_iterate (sym_table_t* symTab, iterate_fnc_t fnc, void* data) {
 	// Loop through each entry in hash table
 	for(int i = 0; i < symTab -> size; i++){
+	node_t* currNode = symTab -> hash_table[i];
 	// Visit each entry that is not NULL and use fnc
-	if(symTab -> hash_table[i] == NULL){
-	
+	while(currNode != NULL){
+		node_t* tempNode = currNode;
+		(*fnc)(&(tempNode -> symbol), data);
+		currNode = currNode -> next;
 	}
-	else
-		(*fnc)(&(symTab -> hash_table[i] -> symbol), data);
-	}
+}
 }
 
 /** @todo implement this function */
