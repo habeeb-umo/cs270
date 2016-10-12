@@ -1,0 +1,13 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	IntAdd            300E
+//	Option            300A
+//	Result            300D
+//	Main              3004
+//	IntSub            3013
+//	IntMul            301A
+//	Functions         3001
+//	Param1            300B
+//	Param2            300C
