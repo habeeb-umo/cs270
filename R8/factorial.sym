@@ -1,0 +1,17 @@
+// Symbol table
+// Scope level 0:
+//	Symbol Name       Page Address
+//	----------------  ------------
+//	Checkpoint1       300B
+//	Checkpoint2       3020
+//	Result            3002
+//	BaseCase          301B
+//	Main              3021
+//	MultiplyLoop      3016
+//	Finish            301D
+//	MinusOne          3005
+//	Stack             3003
+//	Factorial         3006
+//	One               3004
+//	TheEnd            3029
+//	Param             3001

@@ -51,7 +51,7 @@ Checkpoint1     LDR   R0, R5, #4    ; Load parameter N into a register
                 
                 ;__________________ ; Store N - 1 in the local variable
                 
-		ST R2, R5, #0
+		STR R2, R5, #0
 
                 BRnz  BaseCase      ; Detect base case (N <= 1)
                 
@@ -76,7 +76,7 @@ MultiplyLoop    ADD   R3, R3, R2    ; Notice that by this point, R0 > 1
                 
                 ;__________________ ; Make return value = N * Factorial(N - 1)
                 
-		STR 
+		STR R3, R5, #3 
 
 
                 BR    Finish
@@ -95,6 +95,11 @@ BaseCase        LD    R0, One       ; Make return value = 1
 Finish          ;__________________ ; Step 9: remove local variable from stack
                 ;__________________ ; Step 10: restore previous frame pointer
                 ;__________________ ; Step 11: restore return address
+		
+		ADD R6, R6, #1
+		POP R5
+		POP R7
+
 Checkpoint2     RET                 ; Step 12: return to calling subroutine
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -111,8 +116,14 @@ Main            LD    R6, Stack     ; Initialize stack pointer
                 ;__________________ ; Step 2: call Factorial(Param)
                 ;__________________ ; Step 13: retrieve return value
                 ;__________________ ; Step 14: remove parameter from stack
+
+		PUSH R0
+		JSR Factorial
+		POP R0
+		ADD R6, R6, #1
                 
                 ;__________________ ; Store return value in Result
+		ST R0, Result
                 
 TheEnd          HALT
                 
